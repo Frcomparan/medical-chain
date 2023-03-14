@@ -57,7 +57,7 @@ class PacientCRUD extends Contract {
     ]
 
     for (const asset of assets) {
-      asset.docType = 'asset'
+      asset.docType = 'pacient'
       // example of how to write to world state deterministically
       // use convetion of alphabetic order
       // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'

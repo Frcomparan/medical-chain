@@ -1,13 +1,13 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-app.use(bodyParser.json());
+const cors = require("cors");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.use(cors());
 // Setting for Hyperledger Fabric
 const { Gateway, Wallets } = require("fabric-network");
 const path = require("path");
 const fs = require("fs");
-//const ccpPath = path.resolve(__dirname, '..', '..', 'test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
-//      const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
 const getContract = async () => {
   const ccpPath = path.resolve(
@@ -59,30 +59,26 @@ app.get("/api/pacients", async function (req, res) {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    // Evaluate the specified transaction.
-    // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
-    // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-
     const result = await contract.evaluateTransaction("GetAllPacients");
     console.log(JSON.parse(result.toString()));
     console.log(
       `Transaction has been evaluated, result is: ${result.toString()}`
     );
-    res.status(200).json({ response: JSON.parse(result.toString()) });
+    res.status(200).json(JSON.parse(result.toString()));
+
+    // Disconnect from the gateway.
+    await gateway.disconnect();
   } catch (error) {
     console.error(`Failed to evaluate transaction: ${error}`);
     res.status(500).json({ error: error });
-    // process.exit(1);
   }
 });
 
 app.get("/api/pacients/:id", async function (req, res) {
   try {
+    // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    // Evaluate the specified transaction.
-    // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
-    // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
     const result = await contract.evaluateTransaction(
       "ReadPacient",
       req.params.id
@@ -90,7 +86,10 @@ app.get("/api/pacients/:id", async function (req, res) {
     console.log(
       `Transaction has been evaluated, result is: ${result.toString()}`
     );
-    res.status(200).json({ response: JSON.parse(result.toString()) });
+    res.status(200).json(JSON.parse(result.toString()));
+
+    // Disconnect from the gateway.
+    await gateway.disconnect();
   } catch (error) {
     console.log(`Failed to submit transaction: ${error}`);
     res.status(500).json({ error: error.message });
@@ -102,9 +101,6 @@ app.post("/api/pacients/", async function (req, res) {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    // Submit the specified transaction.
-    // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-    // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
     const response = await contract.submitTransaction(
       "CreatePacient",
       req.body.id,
@@ -116,12 +112,12 @@ app.post("/api/pacients/", async function (req, res) {
     );
     console.log("Transaction has been submitted");
     res.send("Transaction has been submitted ");
+
     // Disconnect from the gateway.
     await gateway.disconnect();
   } catch (error) {
     console.error(`Failed to submit transaction: ${error}`);
     res.status(500).json({ error: error });
-    // process.exit(1);
   }
 });
 
@@ -130,9 +126,6 @@ app.put("/api/pacients/:id", async function (req, res) {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    // Submit the specified transaction.
-    // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-    // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
     const response = await contract.submitTransaction(
       "UpdatePacient",
       req.params.id,
@@ -144,12 +137,12 @@ app.put("/api/pacients/:id", async function (req, res) {
     );
     console.log("Transaction has been submitted");
     res.send("Transaction has been submitted ");
+
     // Disconnect from the gateway.
     await gateway.disconnect();
   } catch (error) {
     console.error(`Failed to submit transaction: ${error.messages}`);
     res.status(500).json({ error: error.responses[0].response });
-    // process.exit(1);
   }
 });
 
@@ -158,9 +151,6 @@ app.delete("/api/pacients/:id", async function (req, res) {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    // Submit the specified transaction.
-    // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-    // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
     const response = await contract.submitTransaction(
       "DeletePacient",
       req.params.id
@@ -172,7 +162,6 @@ app.delete("/api/pacients/:id", async function (req, res) {
   } catch (error) {
     console.error(`Failed to submit transaction: ${error.messages}`);
     res.status(500).json({ error: error.responses[0].response });
-    // process.exit(1);
   }
 });
 
