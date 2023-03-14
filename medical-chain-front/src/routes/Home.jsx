@@ -1,5 +1,5 @@
 import React from 'react'
-import PacientsList from './Pacients/PacientsList'
+import PacientsList from '../pacients/PacientsList'
 
 async function getResponse() {
   const url = `http://localhost:8080/api/pacients/1`

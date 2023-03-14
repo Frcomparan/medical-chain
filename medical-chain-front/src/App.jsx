@@ -1,7 +1,7 @@
 import React from "react"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './Home'
-import PacientsList from './Pacients/PacientsList'
+import Home from './routes/Home'
+import PacientsList from './pacients/PacientsList'
 import GlobalStyle from './styles/GlobalStyle'
 
 function App() {
