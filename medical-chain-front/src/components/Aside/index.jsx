@@ -14,11 +14,11 @@ export default function Aside() {
 			<div className='link-options'>
 				<div className='option'>
 					<i class='fa-solid fa-user'></i>
-					<a href='#'>Pacients</a>
+					<a href='/pacients'>Pacients</a>
 				</div>
 				<div className='option'>
 					<i class='fa-solid fa-user-doctor'></i>
-					<a href='#'>Doctors</a>
+					<a href='/'>Doctors</a>
 				</div>
 			</div>
 		</StyledAside>

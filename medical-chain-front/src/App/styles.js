@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import styled from 'styled-components'
 
 export const Main = styled.main`
@@ -9,7 +10,8 @@ export const Main = styled.main`
 
 	& > nav {
 		/* grid-area: 1 / 3 / 2 / 11; */
-		grid-area: 1 / 3 / 4 / 11;
+		grid-area: ${({ isHome }) =>
+			isHome ? '1 / 3 / 4 / 11' : '1 / 3 / 2 / 11'};
 	}
 
 	& > aside {
@@ -17,7 +19,9 @@ export const Main = styled.main`
 	}
 
 	.content {
-		grid-area: 4 / 3 / 11 / 11;
-		overflow: scroll;
+		grid-area: ${({ isHome }) =>
+			isHome ? '4 / 3 / 11 / 11' : '2 / 3 / 11 / 11'};
+		overflow-y: overlay;
+		padding: 30px 80px;
 	}
 `
