@@ -7,6 +7,7 @@ import Nav from '../components/Nav'
 import Aside from '../components/Aside'
 import { Main } from './styles'
 import { Context } from '../Context'
+import PacientForm from '../pacients/PacientForm'
 
 function App() {
 	const { isHome } = useContext(Context)
@@ -18,8 +19,10 @@ function App() {
 				<Aside></Aside>
 				<div className='content'>
 					<Routes>
-						<Route path='/' element={<Home />}></Route>
-						<Route path='/pacients' element={<PacientsList />}></Route>
+						<Route path='/' element={<Home />} />
+						<Route path='/pacients' element={<PacientsList />} />
+						<Route path='/pacients/new' element={<PacientForm />} />
+						<Route path='/pacients/:id/edit' element={<PacientForm />} />
 					</Routes>
 				</div>
 			</Main>
