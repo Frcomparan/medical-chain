@@ -1,38 +1,66 @@
 import styled from 'styled-components'
 
-export const StyledCard = styled.a`
-	width: 100%;
-	background-color: #d9d9d9;
-	border-radius: 10px;
-	display: flex;
-	padding: 20px;
-	color: #525b81;
-	text-decoration: none;
-	font-size: 1.3rem;
+export const StyledPacient = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  /* max-width: 780px;
+  margin: 0 auto; */
 
-	&:hover {
-		text-decoration: none;
-		transform: scale(1.01);
-		color: #525b81;
-	}
+  h1 {
+    text-align: center;
+  }
 
-	img {
-		width: 40%;
-		object-fit: contain;
-	}
+  .pacient-container {
+    display: flex;
+  }
 
-	section {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-around;
-	}
+  .pacient-info {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+  }
 
-	h2 {
-		width: 100%;
-		font-size: 1.6rem;
-		text-align: center;
-	}
+  .data-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 
-	div {
-	}
+    &:nth-child(1) .data {
+      width: 50%;
+    }
+
+    &:nth-child(2) .data {
+      width: 33%;
+    }
+
+    .data {
+      border-radius: 20px;
+      background-color: #d9d9d9;
+      padding: 15px 30px;
+
+      span {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+    }
+  }
+
+  img {
+    width: 30%;
+    object-fit: contain;
+  }
+
+  a {
+    width: 30%;
+    font-size: 1.2rem;
+  }
 `
