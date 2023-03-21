@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const StyledPacientForm = styled.form`
   width: 100%;
@@ -16,11 +16,15 @@ export const StyledPacientForm = styled.form`
     width: 100%;
 
     & .field:nth-child(1) {
-      width: 75%;
+      width: 35%;
     }
 
     & .field:nth-child(2) {
-      width: 25%;
+      width: 35%;
+    }
+
+    & .field:nth-child(3) {
+      width: 30%;
     }
   }
 
@@ -52,4 +56,4 @@ export const StyledPacientForm = styled.form`
       transform: scale(1.05);
     }
   }
-`
+`;

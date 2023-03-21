@@ -1,27 +1,19 @@
-import React, { useContext } from 'react'
-import styled from 'styled-components'
-import { Context } from '../../Context'
-import PacientCard from '../PacientCard'
-import { StyledPacientList } from './style'
-
-const H1 = styled.h1`
-  color: red;
-  font-size: 20px;
-`
+import React, { useContext } from 'react';
+import { Context } from '../../Context';
+import PacientCard from '../PacientCard';
+import { StyledPacientList } from './style';
 
 function PacientsList() {
-  const { isHome } = useContext(Context)
+  const { pacients } = useContext(Context);
 
   return (
     <StyledPacientList>
       <h1>Pacients</h1>
-      <PacientCard />
-      <PacientCard />
-      <PacientCard />
-      <PacientCard />
-      <PacientCard />
+      {pacients.map((pacient) => {
+        return <PacientCard key={pacient.Id} {...pacient} />;
+      })}
     </StyledPacientList>
-  )
+  );
 }
 
-export default PacientsList
+export default PacientsList;

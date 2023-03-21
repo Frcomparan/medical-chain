@@ -1,10 +1,29 @@
-import React from 'react'
-import { StyledPacient } from './style'
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Context } from '../../Context';
+import { useFetchPacients } from '../../hooks/useFetchPacients';
+import { StyledPacient } from './style';
 
 export default function Pacient() {
+  const { id } = useParams();
+  const [pacient, setPacient] = useState([]);
+
+  const getPacient = async () => {
+    const url = `http://localhost:8080/api/pacients/${id}`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    setPacient(data);
+  };
+
+  useEffect(() => {
+    getPacient();
+  }, []);
+
   return (
     <StyledPacient>
-      <h1>Full pacient name...</h1>
+      <h1>
+        {pacient.Name} {pacient.LastName}
+      </h1>
       <div className='pacient-container'>
         <img
           src='https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
@@ -14,11 +33,11 @@ export default function Pacient() {
           <div className='data-section'>
             <div className='data'>
               <span>Weight</span>
-              <p>80 kg</p>
+              <p>{pacient.Weight} kg</p>
             </div>
             <div className='data'>
-              <span>Heigt</span>
-              <p>180 cm</p>
+              <span>Height</span>
+              <p>{pacient.Heigh} cm</p>
             </div>
           </div>
           <div className='data-section'>
@@ -32,14 +51,14 @@ export default function Pacient() {
             </div>
             <div className='data'>
               <span>Type of Blood</span>
-              <p>O-</p>
+              <p>{pacient.BloodType}</p>
             </div>
           </div>
         </div>
       </div>
-      <a href='/pacient/1/edit' className='btn btn-primary'>
+      <a href={`/pacients/${id}/edit`} className='btn btn-primary'>
         Edit
       </a>
     </StyledPacient>
-  )
+  );
 }

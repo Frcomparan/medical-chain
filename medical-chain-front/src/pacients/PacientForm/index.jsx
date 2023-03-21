@@ -1,18 +1,44 @@
-import React from 'react'
-import { StyledPacientForm } from './style'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { StyledPacientForm } from './style';
 
 export default function PacientForm() {
+  const { id } = useParams();
+  const [pacient, setPacient] = useState([]);
+
+  const getPacient = async () => {
+    const url = `http://localhost:8080/api/pacients/${id}`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    setPacient(data);
+  };
+
+  useEffect(() => {
+    getPacient();
+  }, []);
+
   return (
     <StyledPacientForm action=''>
       <h1>Add a new pacient</h1>
       <section>
         <div className='field form-group'>
-          <label htmlFor='pacientName'>Full name</label>
+          <label htmlFor='pacientName'>Name</label>
           <input
             className='form-control'
             type='text'
             name='pacientName'
             id='pacientName'
+            placeholder={id && pacient.Name}
+          />
+        </div>
+        <div className='field form-group'>
+          <label htmlFor='pacientLastName'>Lastname</label>
+          <input
+            className='form-control'
+            type='text'
+            name='pacientLastName'
+            id='pacientLastName'
+            placeholder={id && pacient.LastName}
           />
         </div>
         <div className='field form-group'>
@@ -22,6 +48,7 @@ export default function PacientForm() {
             type='date'
             name='pacientBirthdate'
             id='pacientBirthdate'
+            // placeholder={id && pacient.Name}
           />
         </div>
       </section>
@@ -33,14 +60,30 @@ export default function PacientForm() {
             name='pacientBloodType'
             id='pacientBloodType'
           >
-            <option value='O+'>O+</option>
-            <option value='O-'>O-</option>
-            <option value='A+'>A+</option>
-            <option value='A-'>A-</option>
-            <option value='B+'>B+</option>
-            <option value='B-'>B-</option>
-            <option value='AB+'>AB+</option>
-            <option value='AB-'>AB-</option>
+            <option value='O+' selected={pacient.BloodType === 'O+'}>
+              O+
+            </option>
+            <option value='O-' selected={pacient.BloodType === 'O-'}>
+              O-
+            </option>
+            <option value='A+' selected={pacient.BloodType === 'A+'}>
+              A+
+            </option>
+            <option value='A-' selected={pacient.BloodType === 'A-'}>
+              A-
+            </option>
+            <option value='B+' selected={pacient.BloodType === 'B+'}>
+              B+
+            </option>
+            <option value='B-' selected={pacient.BloodType === 'B-'}>
+              B-
+            </option>
+            <option value='AB+' selected={pacient.BloodType === 'AB+'}>
+              AB+
+            </option>
+            <option value='AB-' selected={pacient.BloodType === 'AB-'}>
+              AB-
+            </option>
           </select>
         </div>
         <div className='field'>
@@ -50,6 +93,7 @@ export default function PacientForm() {
             type='text'
             name='pacientHeight'
             id='pacientHeight'
+            placeholder={id && pacient.Heigh}
           />
         </div>{' '}
         <div className='field'>
@@ -59,6 +103,7 @@ export default function PacientForm() {
             type='text'
             name='pacientWeight'
             id='pacientWeight'
+            placeholder={id && pacient.Weight}
           />
         </div>
         <div className='field'>
@@ -78,5 +123,5 @@ export default function PacientForm() {
         <input type='submit' className='btn btn-primary' />
       </div>
     </StyledPacientForm>
-  )
+  );
 }
