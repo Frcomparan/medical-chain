@@ -114,14 +114,24 @@ class PacientCRUD extends Contract {
   }
 
   // UpdatePacient updates an existing Pacient in the world state with provided parameters.
-  async UpdatePacient(ctx, id, name, lastname, weigth, heigh, bloodType) {
+  async UpdatePacient(
+    ctx,
+    id,
+    name,
+    lastname,
+    weigth,
+    height,
+    bloodType,
+    birthdate,
+    genre
+  ) {
     const exists = await this.PacientExists(ctx, id);
     if (!exists) {
       console.error('Before error');
       throw new Error(`The pacient ${id} does not exist`);
     }
 
-    console.log({ name, lastname, weigth, heigh, bloodType });
+    console.log({ name, lastname, weigth, height, bloodType });
 
     // overwriting original pacient with new pacient data
     const updatedPacient = {
@@ -129,8 +139,10 @@ class PacientCRUD extends Contract {
       Name: name,
       LastName: lastname,
       Weight: weigth,
-      Heigh: heigh,
+      Height: height,
       BloodType: bloodType,
+      Genre: genre,
+      Birthdate: birthdate,
     };
     // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
     return ctx.stub.putState(

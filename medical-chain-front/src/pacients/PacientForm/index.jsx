@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Red } from 'react-router-dom';
 import { StyledPacientForm } from './style';
 import axios from 'axios';
 
@@ -34,28 +34,41 @@ export default function PacientForm() {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    axios
-      .post('http://localhost:8080/api/pacients', {
-        id: '10',
-        name,
-        lastname,
-        height,
-        weight,
-        bloodType,
-        birthdate,
-        genre,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const data = {
+      name,
+      lastname,
+      height,
+      weight,
+      bloodType,
+      birthdate,
+      genre,
+    };
+    if (id) {
+      axios
+        .put(`http://localhost:8080/api/pacients/${id}`, data)
+        .then((res) => {
+          console.log(res.data);
+          window.location = `/pacients/${id}`;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .post('http://localhost:8080/api/pacients', data)
+        .then((res) => {
+          console.log(res.data);
+          window.location = `/pacients/`;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   console.log(birthdate);
   return (
     <StyledPacientForm onSubmit={onSubmitHandler}>
-      <h1>Add a new pacient</h1>
+      <h1>{id ? 'Update pacient' : 'Create a new pacient'}</h1>
       <section>
         <div className='field form-group'>
           <label htmlFor='pacientName'>Name</label>

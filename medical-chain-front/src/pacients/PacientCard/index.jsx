@@ -13,7 +13,6 @@ export default function PacientCard({
   return (
     <StyledCard className='pacient-card' href={`/pacients/${Id}`}>
       <img
-        // src='https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
         src={
           Genre == 'Male'
             ? 'https://cdn-icons-png.flaticon.com/512/18/18148.png'
