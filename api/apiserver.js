@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 // Setting for Hyperledger Fabric
 const { Gateway, Wallets } = require("fabric-network");
 const path = require("path");
@@ -100,15 +101,20 @@ app.post("/api/pacients/", async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
+    console.log(req.body);
+    const result = await contract.evaluateTransaction("GetAllPacients");
+    const total = JSON.parse(result.toString()).length;
 
     const response = await contract.submitTransaction(
       "CreatePacient",
-      req.body.id,
+      total + 1,
       req.body.name,
       req.body.lastname,
       req.body.weight,
       req.body.height,
-      req.body.bloodType
+      req.body.bloodType,
+      req.body.birthdate,
+      req.body.genre
     );
     console.log("Transaction has been submitted");
     res.send("Transaction has been submitted ");
@@ -125,6 +131,8 @@ app.put("/api/pacients/:id", async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
+    console.log(req.body);
+    console.log(req.params.id);
 
     const response = await contract.submitTransaction(
       "UpdatePacient",
@@ -133,7 +141,9 @@ app.put("/api/pacients/:id", async function (req, res) {
       req.body?.lastname,
       req.body?.weight,
       req.body?.height,
-      req.body?.bloodType
+      req.body?.bloodType,
+      req.body?.birthdate,
+      req.body?.genre
     );
     console.log("Transaction has been submitted");
     res.send("Transaction has been submitted ");
@@ -142,7 +152,7 @@ app.put("/api/pacients/:id", async function (req, res) {
     await gateway.disconnect();
   } catch (error) {
     console.error(`Failed to submit transaction: ${error.messages}`);
-    res.status(500).json({ error: error.responses[0].response });
+    res.status(500).json({ error: error });
   }
 });
 

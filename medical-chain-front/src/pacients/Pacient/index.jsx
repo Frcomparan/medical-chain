@@ -26,7 +26,11 @@ export default function Pacient() {
       </h1>
       <div className='pacient-container'>
         <img
-          src='https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
+          src={
+            pacient.Genre == 'Male'
+              ? 'https://cdn-icons-png.flaticon.com/512/18/18148.png'
+              : 'https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
+          }
           alt='pacient-icon'
         />
         <div className='pacient-info'>
@@ -37,17 +41,17 @@ export default function Pacient() {
             </div>
             <div className='data'>
               <span>Height</span>
-              <p>{pacient.Heigh} cm</p>
+              <p>{pacient.Height} cm</p>
             </div>
           </div>
           <div className='data-section'>
             <div className='data'>
               <span>Birthdate</span>
-              <p>01/01/2000</p>
+              <p>{pacient.Birthdate}</p>
             </div>
             <div className='data'>
               <span>Genre</span>
-              <p>Female</p>
+              <p>{pacient.Genre}</p>
             </div>
             <div className='data'>
               <span>Type of Blood</span>

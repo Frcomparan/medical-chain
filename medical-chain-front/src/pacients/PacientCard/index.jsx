@@ -2,17 +2,23 @@ import React from 'react';
 import { StyledCard, H2 } from './style';
 
 export default function PacientCard({
-  BloodType,
-  Heigh,
+  Height,
   Id,
   LastName,
   Name,
   Weight,
+  Birthdate,
+  Genre,
 }) {
   return (
     <StyledCard className='pacient-card' href={`/pacients/${Id}`}>
       <img
-        src='https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
+        // src='https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
+        src={
+          Genre == 'Male'
+            ? 'https://cdn-icons-png.flaticon.com/512/18/18148.png'
+            : 'https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_female-512.png'
+        }
         alt='female user icon'
       />
       <section>
@@ -21,13 +27,13 @@ export default function PacientCard({
         </h2>
         <div>
           <span>Height:</span>
-          <p>{Heigh} cm</p>
+          <p>{Height} cm</p>
           <span>Weight:</span>
           <p>{Weight} kg</p>
         </div>
         <div>
-          <span>Last record:</span>
-          <p>01/01/2000</p>
+          <span>Birthdate:</span>
+          <p>{Birthdate}</p>
         </div>
       </section>
     </StyledCard>
