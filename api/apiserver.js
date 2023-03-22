@@ -1,6 +1,8 @@
 const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
+const upload = multer({ dest: "./uploads" });
 const app = express();
 
 app.use(cors());
@@ -172,6 +174,43 @@ app.delete("/api/pacients/:id", async function (req, res) {
   } catch (error) {
     console.error(`Failed to submit transaction: ${error.messages}`);
     res.status(500).json({ error: error.responses[0].response });
+  }
+});
+
+app.get("/file", async (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
+
+app.post("/filepath", upload.single("doc"), async (req, res) => {
+  try {
+    console.log(req.file);
+    const file = req.file;
+
+    if (!file) {
+      res.status(400).send({
+        status: false,
+        data: "No file is selected",
+      });
+    } else {
+      let HASH = "";
+      import("./uploadIPFS.mjs").then(async (module) => {
+        HASH = await module.uploadIPFS("uploads/" + req.file.filename);
+        res.send({
+          status: true,
+          message: "File is uploaded",
+          data: {
+            name: file.originalname,
+            mimetype: file.mimetype,
+            size: file.size,
+          },
+          link: `https://ipfs.io/ipfs/${HASH}`,
+        });
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: error,
+    });
   }
 });
 
