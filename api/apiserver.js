@@ -214,4 +214,35 @@ app.post("/filepath", upload.single("doc"), async (req, res) => {
   }
 });
 
+app.post("/filepathtwo", upload.single("doc"), async (req, res) => {
+  try {
+    console.log(req.file);
+    const file = req.file;
+
+    if (!file) {
+      res.status(400).send({
+        status: false,
+        data: "No file is selected",
+      });
+    } else {
+      let PATH = "";
+      import("./uploadIPFStwo.mjs").then(async (module) => {
+        PATH = await module.uploadIPFS("uploads/" + req.file.filename);
+        console.log(req.file.filename);
+        res.sendFile(__dirname + `/uploads/${PATH}`);
+        // fs.unlink(__dirname + `/uploads/${PATH}`);
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: error,
+    });
+  }
+});
+
+app.get("/seefile", async (req, res) => {
+  console.log("a");
+  res.sendFile(__dirname + "/uploads/cat.jpg");
+});
+
 app.listen(8080);
