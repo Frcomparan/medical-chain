@@ -40,7 +40,7 @@ export async function uploadIPFS(path) {
   const encryptedData = encryptFile(fileBuffer);
 
   const fileAdded = await node.add({
-    path: "cat_encrypted.jpg",
+    path: "cat_encrypted.pdf",
     content: encryptedData,
   });
 
@@ -58,11 +58,11 @@ export async function uploadIPFS(path) {
     const decryptedData = decryptFile(encryptedBuffer);
 
     // Crea un archivo local y escribe los datos de la imagen.
-    fs.writeFile("uploads/file.pdf", decryptedData, (err) => {
+    fs.writeFile("uploads/cat.pdf", decryptedData, (err) => {
       if (err) throw err;
       console.log("Imagen descargada exitosamente!");
     });
-    return "file.pdf";
+    return fileAdded.cid;
   } catch (err) {
     console.error(err);
   }
