@@ -1,47 +1,12 @@
 const boom = require('@hapi/boom');
-const crypto = require('crypto');
 const { models } = require('../libs/sequelize');
-
-function addKeys() {
-  return new Promise((resolve, reject) => {
-    crypto.generateKeyPair(
-      'rsa',
-      {
-        modulusLength: 512,
-        publicKeyEncoding: {
-          type: 'spki',
-          format: 'pem',
-        },
-        privateKeyEncoding: {
-          type: 'pkcs8',
-          format: 'pem',
-        },
-      },
-      (err, publicKey, privateKey) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({
-            privateKey: privateKey.replace(
-              /(-----(BEGIN|END) PRIVATE KEY-----|\n)/g,
-              ''
-            ),
-            publicKey: publicKey.replace(
-              /(-----(BEGIN|END) PUBLIC KEY-----|\n)/g,
-              ''
-            ),
-          });
-        }
-      }
-    );
-  });
-}
+const { getKeyPair } = require('../utils/helpers/getKeyPair');
 
 class UserService {
   constructor() {}
 
   async create(data) {
-    const keys = await addKeys();
+    const keys = await getKeyPair();
     data = {
       ...data,
       ...keys,

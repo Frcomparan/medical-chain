@@ -63,7 +63,7 @@ class Doctor extends Model {
     return {
       sequelize,
       tableName: DOCTOR_TABLE,
-      modelName: 'Pacient',
+      modelName: 'Doctor',
       timestamps: false,
     };
   }

@@ -30,7 +30,7 @@ module.exports = {
       role: {
         allowNull: false,
         type: DataTypes.STRING,
-        defaultValue: 'customer',
+        defaultValue: 'pacient',
       },
       createdAt: {
         allowNull: false,
