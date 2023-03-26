@@ -17,19 +17,19 @@ const getDoctorSchema = Joi.object({
 const createDoctorSchema = Joi.object({
   name: name.required(),
   phone: phone.required(),
-  phone: birthdate.required(),
+  birthdate: birthdate.required(),
   address: address.required(),
   license: license.required(),
   specialty: specialty,
-  user: {
+  user: Joi.object({
     email: email.required(),
-  },
+  }).required(),
 });
 
 const updateDoctorSchema = Joi.object({
   name: name,
   phone: phone,
-  phone: birthdate,
+  birthdate: birthdate,
   address: address,
   license: license,
   specialty: specialty,

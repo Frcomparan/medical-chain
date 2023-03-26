@@ -25,7 +25,7 @@ const createPacientSchema = Joi.object({
 const updatePacientSchema = Joi.object({
   name: name,
   phone: phone,
-  phone: birthdate,
+  birthdate: birthdate,
   address: address,
   userId: userId,
 });

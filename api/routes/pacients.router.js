@@ -1,6 +1,7 @@
 const express = require('express');
 
 const PacientService = require('../services/pacient.service');
+const AuthService = require('./../services/auth.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const {
   createPacientSchema,
@@ -9,11 +10,12 @@ const {
 } = require('../schemas/pacient.schema');
 
 const router = express.Router();
-const service = new PacientService();
+const pacientService = new PacientService();
+const authService = new AuthService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const pacients = await service.find();
+    const pacients = await pacientService.find();
     res.json(pacients);
   } catch (error) {
     next(error);
@@ -27,7 +29,7 @@ router.get(
     try {
       const { id } = req.params;
       console.log({ id });
-      const pacient = await service.findOne(id);
+      const pacient = await pacientService.findOne(id);
       res.json(pacient);
     } catch (error) {
       next(error);
@@ -41,8 +43,8 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newPacient = await service.create(body);
-      res.status(201).json(newPacient);
+      const newPacient = await pacientService.create(body);
+      res.status(201).json(authService.signToken(newPacient.dataValues.user));
     } catch (error) {
       next(error);
     }
@@ -57,8 +59,8 @@ router.put(
     try {
       const { id } = req.params;
       const body = req.body;
-      const category = await service.update(id, body);
-      res.json(category);
+      const pacient = await pacientService.update(id, body);
+      res.json(pacient);
     } catch (error) {
       next(error);
     }
