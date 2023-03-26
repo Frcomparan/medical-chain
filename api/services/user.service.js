@@ -22,8 +22,14 @@ function addKeys() {
           reject(err);
         } else {
           resolve({
-            privateKey: privateKey,
-            publicKey: publicKey,
+            privateKey: privateKey.replace(
+              /(-----(BEGIN|END) PRIVATE KEY-----|\n)/g,
+              ''
+            ),
+            publicKey: publicKey.replace(
+              /(-----(BEGIN|END) PUBLIC KEY-----|\n)/g,
+              ''
+            ),
           });
         }
       }

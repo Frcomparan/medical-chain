@@ -1,14 +1,14 @@
-const getContract = require("../utilities/hyperledger/contracConnection.js");
-const express = require("express");
+const getContract = require('../utils/hyperledger/contracConnection.js');
+const express = require('express');
 
 const router = express.Router();
 
-router.get("/", async function (req, res) {
+router.get('/', async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
-    const result = await contract.evaluateTransaction("GetAllPacients");
+    const result = await contract.evaluateTransaction('GetAllPacients');
     console.log(JSON.parse(result.toString()));
     console.log(
       `Transaction has been evaluated, result is: ${result.toString()}`
@@ -23,13 +23,13 @@ router.get("/", async function (req, res) {
   }
 });
 
-router.get("/:id", async function (req, res) {
+router.get('/:id', async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
     const result = await contract.evaluateTransaction(
-      "ReadPacient",
+      'ReadPacient',
       req.params.id
     );
     console.log(
@@ -45,16 +45,16 @@ router.get("/:id", async function (req, res) {
   }
 });
 
-router.post("/", async function (req, res) {
+router.post('/', async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
     console.log(req.body);
-    const result = await contract.evaluateTransaction("GetAllPacients");
+    const result = await contract.evaluateTransaction('GetAllPacients');
     const total = JSON.parse(result.toString()).length;
 
     const response = await contract.submitTransaction(
-      "CreatePacient",
+      'CreatePacient',
       total + 1,
       req.body.name,
       req.body.lastname,
@@ -64,8 +64,8 @@ router.post("/", async function (req, res) {
       req.body.birthdate,
       req.body.genre
     );
-    console.log("Transaction has been submitted");
-    res.send("Transaction has been submitted ");
+    console.log('Transaction has been submitted');
+    res.send('Transaction has been submitted ');
 
     // Disconnect from the gateway.
     await gateway.disconnect();
@@ -75,7 +75,7 @@ router.post("/", async function (req, res) {
   }
 });
 
-router.put("/:id", async function (req, res) {
+router.put('/:id', async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
@@ -83,7 +83,7 @@ router.put("/:id", async function (req, res) {
     console.log(req.params.id);
 
     const response = await contract.submitTransaction(
-      "UpdatePacient",
+      'UpdatePacient',
       req.params.id,
       req.body?.name,
       req.body?.lastname,
@@ -93,8 +93,8 @@ router.put("/:id", async function (req, res) {
       req.body?.birthdate,
       req.body?.genre
     );
-    console.log("Transaction has been submitted");
-    res.send("Transaction has been submitted ");
+    console.log('Transaction has been submitted');
+    res.send('Transaction has been submitted ');
 
     // Disconnect from the gateway.
     await gateway.disconnect();
@@ -104,17 +104,17 @@ router.put("/:id", async function (req, res) {
   }
 });
 
-router.delete("/:id", async function (req, res) {
+router.delete('/:id', async function (req, res) {
   try {
     // Get the contract from the network.
     const [contract, gateway] = await getContract();
 
     const response = await contract.submitTransaction(
-      "DeletePacient",
+      'DeletePacient',
       req.params.id
     );
-    console.log("Transaction has been submitted");
-    res.send("Transaction has been submitted ");
+    console.log('Transaction has been submitted');
+    res.send('Transaction has been submitted ');
     // Disconnect from the gateway.
     await gateway.disconnect();
   } catch (error) {

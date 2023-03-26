@@ -1,6 +1,8 @@
 const express = require('express');
 
 const UserService = require('./../services/user.service');
+const AuthService = require('./../services/auth.service');
+
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
   updateUserSchema,
@@ -9,19 +11,13 @@ const {
 } = require('./../schemas/user.schema');
 
 const router = express.Router();
-const service = new UserService();
+const userService = new UserService();
+const authService = new AuthService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await service.find();
+    const users = await userService.find();
     res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get('/testkey', async (req, res, next) => {
-  try {
   } catch (error) {
     next(error);
   }
@@ -33,7 +29,7 @@ router.get(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findOne(id);
+      const user = await userService.findOne(id);
       res.json(user);
     } catch (error) {
       next(error);
@@ -47,8 +43,9 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newUser = await service.create(body);
-      res.status(201).json(newUser);
+      const newUser = await userService.create(body);
+
+      res.status(201).json(authService.signToken(newUser));
     } catch (error) {
       next(error);
     }
@@ -63,7 +60,7 @@ router.put(
     try {
       const { id } = req.params;
       const body = req.body;
-      const user = await service.update(id, body);
+      const user = await userService.update(id, body);
       res.json(user);
     } catch (error) {
       next(error);
@@ -77,7 +74,7 @@ router.delete(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      await service.delete(id);
+      await userService.delete(id);
       res.status(201).json({ id });
     } catch (error) {
       next(error);
