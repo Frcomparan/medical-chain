@@ -1,12 +1,13 @@
 import * as IPFS from "ipfs-core";
 import fs from "fs";
 import crypto from "crypto";
+import { configMod } from "../../config/config.mjs";
 
 // Crear una clave secreta compartida
-const secretKey = crypto.randomBytes(32);
+const secretKey = Buffer.from(configMod.secretKey, "hex");
 
 // Crear un vector de inicialización (IV) aleatorio
-const iv = crypto.randomBytes(16);
+const iv = Buffer.from(configMod.iv, "hex");
 
 // Función para encriptar un archivo utilizando CryptoJS.
 function encryptFile(data) {
@@ -30,9 +31,10 @@ function decryptFile(data) {
   return decrypted;
 }
 
-export async function uploadIPFS(path) {
-  const node = await IPFS.create();
+const node = await IPFS.create();
 
+export async function uploadIPFS(path, name) {
+  console.log(path);
   // Cargar la imagen en la memoria como un Buffer
   const fileBuffer = fs.readFileSync(path);
 
@@ -40,29 +42,41 @@ export async function uploadIPFS(path) {
   const encryptedData = encryptFile(fileBuffer);
 
   const fileAdded = await node.add({
-    path: "cat_encrypted.pdf",
+    path: name,
     content: encryptedData,
   });
 
   console.log("Added file:", fileAdded.path, fileAdded.cid);
+  return {
+    name: fileAdded.path,
+    cid: fileAdded.cid,
+  };
+}
+
+export async function downloadIPFS(name, cid) {
   // Función para descargar la imagen.
   try {
     // Obtiene la imagen del hash.
     const chunks = [];
-    for await (const chunk of node.cat(fileAdded.cid)) {
+    for await (const chunk of node.cat(cid)) {
       chunks.push(chunk);
     }
+    console.log(chunks);
+    console.log(secretKey);
+    console.log(iv);
+
     const encryptedBuffer = Buffer.concat(chunks);
 
     // Desencripta los datos de la imagen.
     const decryptedData = decryptFile(encryptedBuffer);
 
     // Crea un archivo local y escribe los datos de la imagen.
-    fs.writeFile("uploads/cat.pdf", decryptedData, (err) => {
+    const path = `uploads/${name}`;
+    fs.writeFile(path, decryptedData, (err) => {
       if (err) throw err;
-      console.log("Imagen descargada exitosamente!");
+      console.log("Archivo descargada exitosamente!");
     });
-    return fileAdded.cid;
+    return path;
   } catch (err) {
     console.error(err);
   }
