@@ -78,10 +78,11 @@ router.get('/downloadfile', async (req, res) => {
   try {
     const { cid, name } = req.body;
     console.log(req.body);
-    import('../utils/ipfs/uploadIPFSEncrypted.mjs').then(async (module) => {
-      const path = await module.downloadIPFS(name, cid);
-      console.log(process.cwd() + '/' + path);
-      res.sendFile(process.cwd() + '/' + path);
+    import('../utils/ipfs/uploadIPFSEncrypted.mjs').then((module) => {
+      module.downloadIPFS(name, cid).then((path) => {
+        console.log(process.cwd() + '/' + path);
+        res.sendFile(process.cwd() + '/' + path);
+      });
     });
   } catch (error) {
     res.status(500).send({
