@@ -16,6 +16,7 @@ class UserService {
       ...newUser.dataValues,
       ...keys,
     };
+    delete newUser.dataValues.password;
     return newUser;
   }
 
@@ -41,7 +42,7 @@ class UserService {
   async findOne(id) {
     const user = await models.User.findByPk(id, {
       attributes: {
-        exclude: ['private-key', 'public-key'],
+        exclude: ['private-key', 'public-key', 'password'],
       },
     });
     if (!user) {

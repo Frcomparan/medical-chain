@@ -6,6 +6,7 @@ const phone = Joi.string().max(16);
 const birthdate = Joi.date();
 const address = Joi.string();
 const email = Joi.string().email();
+const password = Joi.string().min(8);
 const userId = Joi.number().integer();
 
 const getPacientSchema = Joi.object({
@@ -19,6 +20,7 @@ const createPacientSchema = Joi.object({
   address: address.required(),
   user: Joi.object({
     email: email.required(),
+    password: password.required(),
   }).required(),
 });
 

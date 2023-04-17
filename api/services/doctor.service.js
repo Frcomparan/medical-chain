@@ -25,6 +25,7 @@ class DoctorService {
       ...newDoctor.dataValues.user.dataValues,
       ...keys,
     };
+    delete newDoctor.dataValues.user.dataValues.password;
 
     return newDoctor;
   }

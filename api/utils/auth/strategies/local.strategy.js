@@ -5,11 +5,11 @@ const service = new AuthService();
 const LocalStrategy = new Strategy(
   {
     usernameField: 'email',
-    passwordField: 'privateKey',
+    passwordField: 'password',
   },
-  async (email, privateKey, done) => {
+  async (email, password, done) => {
     try {
-      const user = await service.getUser(email, privateKey);
+      const user = await service.getUser(email, password);
       done(null, user);
     } catch (error) {
       done(error, false);

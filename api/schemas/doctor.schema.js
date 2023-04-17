@@ -8,6 +8,7 @@ const address = Joi.string();
 const license = Joi.string();
 const specialty = Joi.string();
 const email = Joi.string().email();
+const password = Joi.string().min(8);
 const userId = Joi.number().integer();
 
 const getDoctorSchema = Joi.object({
@@ -23,6 +24,7 @@ const createDoctorSchema = Joi.object({
   specialty: specialty,
   user: Joi.object({
     email: email.required(),
+    password: password.required(),
   }).required(),
 });
 

@@ -24,6 +24,7 @@ class PacientService {
       ...newPacient.dataValues.user.dataValues,
       ...keys,
     };
+    delete newPacient.dataValues.user.dataValues.password;
 
     return newPacient;
   }

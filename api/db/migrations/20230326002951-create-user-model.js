@@ -17,6 +17,10 @@ module.exports = {
         type: DataTypes.STRING,
         unique: true,
       },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       privateKey: {
         allowNull: false,
         field: 'private_key',

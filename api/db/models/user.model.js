@@ -15,6 +15,10 @@ const UserSchema = {
     type: DataTypes.STRING,
     unique: true,
   },
+  password: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
   privateKey: {
     allowNull: false,
     field: 'private_key',
@@ -64,6 +68,9 @@ class User extends Model {
 
           const publicKey = await bcrypt.hash(user.publicKey, 10);
           user.publicKey = publicKey;
+
+          const password = await bcrypt.hash(user.password, 10);
+          user.password = password;
         },
       },
     };
