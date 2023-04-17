@@ -21,7 +21,11 @@ class UserService {
   }
 
   async find() {
-    const users = await models.User.findAll();
+    const users = await models.User.findAll({
+      attributes: {
+        exclude: ['privateKey', 'publicKey', 'password'],
+      },
+    });
     return users;
   }
 

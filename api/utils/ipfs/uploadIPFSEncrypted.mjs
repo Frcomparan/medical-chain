@@ -41,15 +41,20 @@ export async function uploadIPFS(path, name) {
   // Encriptar el contenido del archivo antes de subirlo.
   const encryptedData = encryptFile(fileBuffer);
 
+  console.log(encryptedData.byteLength);
+
   const fileAdded = await node.add({
     path: name,
     content: encryptedData,
   });
 
   console.log("Added file:", fileAdded.path, fileAdded.cid);
+  console.log(fileAdded.cid["/"]);
+  console.log(fileAdded.cid["/"].toLocaleString());
   return {
-    name: fileAdded.path,
-    cid: fileAdded.cid,
+    hash: fileAdded.cid,
+    encryptedSize: (encryptedData.byteLength / 1024 / 1024).toFixed(4),
+    name: name,
   };
 }
 

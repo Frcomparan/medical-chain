@@ -53,6 +53,11 @@ class User extends Model {
       as: 'doctor',
       foreignKey: 'userId',
     });
+
+    this.hasMany(models.UserFile, {
+      as: 'files',
+      foreignKey: 'userId',
+    });
   }
 
   static config(sequelize) {

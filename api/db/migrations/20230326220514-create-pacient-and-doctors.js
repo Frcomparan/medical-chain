@@ -81,6 +81,23 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      typeOfBlood: {
+        field: 'type_of_blood',
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      height: {
+        allowNull: true,
+        type: DataTypes.DECIMAL,
+      },
+      weight: {
+        allowNull: true,
+        type: DataTypes.DECIMAL,
+      },
+      genre: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

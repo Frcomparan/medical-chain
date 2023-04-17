@@ -5,6 +5,7 @@ const usersRouter = require('./users.router');
 const authRouter = require('./auth.router');
 const pacientsRouter = require('./pacients.router');
 const doctorsRouter = require('./doctors.router');
+const userFileRouter = require('./userFile.router');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/auth.handler');
 
@@ -27,6 +28,11 @@ function routerApi(app) {
     passport.authenticate('jwt', { session: false }),
     checkRoles('admin'),
     doctorsRouter
+  );
+  router.use(
+    '/user_files',
+    passport.authenticate('jwt', { session: false }),
+    userFileRouter
   );
 }
 
