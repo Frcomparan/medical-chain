@@ -1,5 +1,6 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
+// const { UserFile } = require('../db/models/userFile.model');
 
 class UserFileService {
   constructor() {}
@@ -19,11 +20,18 @@ class UserFileService {
   }
 
   async findByPacient(userId) {
-    const users = await models.UserFile.findAll({
-      where: { userId },
+    const user = await models.User.findOne({
+      where: {
+        id: userId,
+      },
+      include: 'files',
+      attributes: {
+        exclude: ['privateKey', 'publicKey', 'password'],
+      },
     });
-    return users;
+    return user;
   }
+
   async findOne(id) {
     const userFile = await models.UserFile.findByPk(id);
     return userFile;

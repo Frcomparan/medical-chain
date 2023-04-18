@@ -43,7 +43,8 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newPacient = await pacientService.create(body);
+      const creator = req.user.sub;
+      const newPacient = await pacientService.create(body, creator);
       res.status(201).json(authService.signToken(newPacient.dataValues.user));
     } catch (error) {
       next(error);

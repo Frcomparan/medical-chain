@@ -5,7 +5,7 @@ const { getKeyPair } = require('../utils/helpers/getKeyPair');
 class PacientService {
   constructor() {}
 
-  async create(data) {
+  async create(data, creator) {
     const keys = await getKeyPair();
     console.log(data);
     data = {
@@ -25,6 +25,13 @@ class PacientService {
       ...keys,
     };
     delete newPacient.dataValues.user.dataValues.password;
+
+    const newPermission = await models.PacientPermission.create({
+      doctorId: creator,
+      pacientId: newPacient.id,
+    });
+
+    console.log(newPermission);
 
     return newPacient;
   }

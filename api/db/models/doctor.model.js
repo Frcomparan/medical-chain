@@ -57,6 +57,13 @@ const DoctorSchema = {
 class Doctor extends Model {
   static associate(models) {
     this.belongsTo(models.User, { as: 'user' });
+
+    this.belongsToMany(models.Pacient, {
+      as: 'pacients',
+      through: models.PacientPermission,
+      foreignKey: 'doctorId',
+      otherKey: 'pacientId',
+    });
   }
 
   static config(sequelize) {
