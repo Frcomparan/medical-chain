@@ -49,6 +49,23 @@ class PacientService {
     return pacient;
   }
 
+  async findPermissions(id) {
+    const user = await models.User.findByPk(id, {
+      include: ['pacient'],
+    });
+    const pacient = user.pacient;
+    let pacientPermissions;
+    if (pacient) {
+      pacientPermissions = await models.PacientPermission.findAll({
+        where: { pacientId: pacient.id },
+      });
+    }
+    if (!pacient) {
+      throw boom.notFound('pacient not found');
+    }
+    return pacientPermissions;
+  }
+
   async update(id, changes) {
     const pacient = await this.findOne(id);
     const rta = await pacient.update(changes);

@@ -1,5 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
+const { DOCTOR_TABLE } = require('./doctor.model');
+const { PACIENT_TABLE } = require('./pacient.model');
+
 const PACIENTE_PERMISSION_TABLE = 'pacient_permissions';
 
 const PacientPermissionSchema = {
@@ -13,11 +16,23 @@ const PacientPermissionSchema = {
     allowNull: false,
     field: 'pacient_id',
     type: DataTypes.INTEGER,
+    references: {
+      model: PACIENT_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   doctorId: {
     allowNull: false,
     field: 'doctor_id',
     type: DataTypes.INTEGER,
+    references: {
+      model: DOCTOR_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   active: {
     allowNull: false,
@@ -33,7 +48,9 @@ const PacientPermissionSchema = {
 };
 
 class PacientPermission extends Model {
-  static associate(models) {}
+  static associate(models) {
+    this.belongsTo(models.Doctor, { as: 'doctor' });
+  }
 
   static config(sequelize) {
     return {

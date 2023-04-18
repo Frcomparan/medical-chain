@@ -1,6 +1,7 @@
 const express = require('express');
 
 const PacientService = require('../services/pacient.service');
+const DoctorService = require('../services/doctor.service');
 const AuthService = require('./../services/auth.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const {
@@ -11,6 +12,7 @@ const {
 
 const router = express.Router();
 const pacientService = new PacientService();
+const doctorService = new DoctorService();
 const authService = new AuthService();
 
 router.get('/', async (req, res, next) => {
@@ -37,14 +39,26 @@ router.get(
   }
 );
 
+router.get('/permissions', async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    const permissions = await pacientService.findPermissions(id);
+    res.json(permissions);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post(
   '/',
   validatorHandler(createPacientSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const creator = req.user.sub;
-      const newPacient = await pacientService.create(body, creator);
+      const creator = await doctorService.findByUser(req.user.sub);
+      console.log(creator);
+      const newPacient = await pacientService.create(body, creator.id);
       res.status(201).json(authService.signToken(newPacient.dataValues.user));
     } catch (error) {
       next(error);

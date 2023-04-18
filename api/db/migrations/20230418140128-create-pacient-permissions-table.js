@@ -4,6 +4,8 @@ const { DataTypes } = require('sequelize');
 const {
   PACIENTE_PERMISSION_TABLE,
 } = require('../models/pacientPermission.model');
+const { DOCTOR_TABLE } = require('../models/doctor.model');
+const { PACIENT_TABLE } = require('../models/pacient.model');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -19,11 +21,23 @@ module.exports = {
         allowNull: false,
         field: 'pacient_id',
         type: DataTypes.INTEGER,
+        references: {
+          model: PACIENT_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       doctorId: {
         allowNull: false,
         field: 'doctor_id',
         type: DataTypes.INTEGER,
+        references: {
+          model: DOCTOR_TABLE,
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       active: {
         allowNull: false,

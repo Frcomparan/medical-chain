@@ -35,6 +35,14 @@ class DoctorService {
     return doctor;
   }
 
+  async findByUser(user) {
+    const doctor = await models.User.findByPk(user, {
+      include: 'doctor',
+    });
+    console.log(doctor);
+    return doctor.doctor;
+  }
+
   async findOne(id) {
     const doctor = await models.Doctor.findByPk(id);
     if (!doctor) {
