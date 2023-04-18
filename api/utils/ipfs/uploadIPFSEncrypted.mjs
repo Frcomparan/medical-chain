@@ -34,14 +34,11 @@ function decryptFile(data) {
 const node = await IPFS.create();
 
 export async function uploadIPFS(path, name) {
-  console.log(path);
   // Cargar la imagen en la memoria como un Buffer
   const fileBuffer = fs.readFileSync(path);
 
   // Encriptar el contenido del archivo antes de subirlo.
   const encryptedData = encryptFile(fileBuffer);
-
-  console.log(encryptedData.byteLength);
 
   const fileAdded = await node.add({
     path: name,
@@ -49,11 +46,10 @@ export async function uploadIPFS(path, name) {
   });
 
   console.log("Added file:", fileAdded.path, fileAdded.cid);
-  console.log(fileAdded.cid["/"]);
-  console.log(fileAdded.cid["/"].toLocaleString());
+
   return {
     hash: fileAdded.cid,
-    encryptedSize: (encryptedData.byteLength / 1024 / 1024).toFixed(4),
+    encryptedSize: encryptedData.byteLength,
     name: name,
   };
 }

@@ -12,6 +12,7 @@ function setupModels(sequelize) {
   User.associate(sequelize.models);
   Pacient.associate(sequelize.models);
   Doctor.associate(sequelize.models);
+  UserFile.associate(sequelize.models);
 }
 
 module.exports = setupModels;
