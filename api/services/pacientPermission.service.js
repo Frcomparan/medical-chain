@@ -34,11 +34,48 @@ class PacientPermissionService {
     return pacientPermissions;
   }
 
-  async togglePermission(id) {
+  async findOne(id) {
     const permission = await models.PacientPermission.findByPk(id);
     if (!permission) {
       throw boom.notFound('permission not found');
     }
+
+    return permission;
+  }
+
+  async findByPacientAndDoctor(userPacientId, userDoctorId) {
+    console.log(userDoctorId);
+
+    const userDoctor = await models.User.findByPk(userDoctorId, {
+      include: ['doctor'],
+    });
+
+    const userPacient = await models.User.findByPk(userPacientId, {
+      include: ['pacient'],
+    });
+
+    if (!userPacient.pacient) {
+      throw boom.notFound('pacient not found');
+    }
+
+    const doctorId = userDoctor.doctor.id;
+    const pacientId = userPacient.pacient.id;
+    const permission = await models.PacientPermission.findOne({
+      where: {
+        pacientId,
+        doctorId,
+      },
+    });
+
+    if (!permission) {
+      throw boom.forbidden('without permission for this pacient');
+    }
+
+    return permission;
+  }
+
+  async togglePermission(id) {
+    const permission = this.findOne(id);
 
     const rta = await permission.update({
       active: !permission.active,

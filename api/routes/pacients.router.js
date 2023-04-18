@@ -39,26 +39,19 @@ router.get(
   }
 );
 
-router.get('/permissions', async (req, res, next) => {
-  try {
-    const { id } = req.body;
-
-    const permissions = await pacientService.findPermissions(id);
-    res.json(permissions);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.post(
   '/',
   validatorHandler(createPacientSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const creator = await doctorService.findByUser(req.user.sub);
-      console.log(creator);
-      const newPacient = await pacientService.create(body, creator.id);
+      let creatorId = null;
+      if (req.user.role === 'doctor') {
+        const creator = await doctorService.findByUser(req.user.sub);
+        creatorId = creator.id;
+      }
+      console.log(creatorId);
+      const newPacient = await pacientService.create(body, creatorId);
       res.status(201).json(authService.signToken(newPacient.dataValues.user));
     } catch (error) {
       next(error);

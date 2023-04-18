@@ -2,19 +2,18 @@ const express = require('express');
 const multer = require('multer');
 
 const UserFileService = require('./../services/userFile.service');
-const AuthService = require('./../services/auth.service');
+const PacientPermission = require('./../services/pacientPermission.service');
 
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
   createUserFileSchema,
   getUserFileSchema,
 } = require('./../schemas/userFile.schema');
-const { NUMBER } = require('sequelize');
 
 const router = express.Router();
 const upload = multer({ dest: process.cwd() + '/uploads' });
 const userFileService = new UserFileService();
-const authService = new AuthService();
+const pacientPermissionService = new PacientPermission();
 const { checkRoles } = require('../middlewares/auth.handler');
 
 router.get('/', checkRoles('admin'), async (req, res, next) => {
@@ -67,12 +66,16 @@ router.get(
 
 router.post(
   '/',
-  checkRoles('admin', 'doctor'),
+  checkRoles('doctor'),
   upload.single('doc'),
   async (req, res, next) => {
     try {
       const file = req.file;
       const { userId } = req.body;
+      await pacientPermissionService.findByPacientAndDoctor(
+        userId,
+        req.user.sub
+      );
 
       if (!file) {
         res.status(400).send({

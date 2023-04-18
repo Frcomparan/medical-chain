@@ -20,18 +20,21 @@ class PacientService {
     const newPacient = await models.Pacient.create(data, {
       include: ['user'],
     });
+
     newPacient.dataValues.user.dataValues = {
       ...newPacient.dataValues.user.dataValues,
       ...keys,
     };
     delete newPacient.dataValues.user.dataValues.password;
 
-    const newPermission = await models.PacientPermission.create({
-      doctorId: creator,
-      pacientId: newPacient.id,
-    });
+    if (creator) {
+      const newPermission = await models.PacientPermission.create({
+        doctorId: creator,
+        pacientId: newPacient.id,
+      });
 
-    console.log(newPermission);
+      console.log(newPermission);
+    }
 
     return newPacient;
   }
