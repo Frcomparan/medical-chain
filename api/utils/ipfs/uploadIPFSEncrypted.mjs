@@ -62,9 +62,9 @@ export async function downloadIPFS(name, cid) {
     for await (const chunk of node.cat(cid)) {
       chunks.push(chunk);
     }
-    console.log(chunks);
-    console.log(secretKey);
-    console.log(iv);
+    // console.log(chunks);
+    // console.log(secretKey);
+    // console.log(iv);
 
     const encryptedBuffer = Buffer.concat(chunks);
 
@@ -75,7 +75,7 @@ export async function downloadIPFS(name, cid) {
     const path = `uploads/${name}`;
     fs.writeFileSync(path, decryptedData, (err) => {
       if (err) throw err;
-      console.log("Archivo descargada exitosamente!");
+      // console.log("Archivo descargada exitosamente!");
     });
     return path;
   } catch (err) {

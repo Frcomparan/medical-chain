@@ -88,7 +88,7 @@ router.post(
             process.cwd() + '/uploads/' + req.file.filename,
             Date.now() + '_' + req.file.originalname
           );
-          console.log(req.user);
+          // console.log(req.user);
           let HASH = uploadFile.hash;
           uploadFile = {
             ...uploadFile,

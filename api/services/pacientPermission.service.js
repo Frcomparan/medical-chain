@@ -44,7 +44,7 @@ class PacientPermissionService {
   }
 
   async findByPacientAndDoctor(userPacientId, userDoctorId) {
-    console.log(userDoctorId);
+    // console.log(userDoctorId);
 
     const userDoctor = await models.User.findByPk(userDoctorId, {
       include: ['doctor'],
