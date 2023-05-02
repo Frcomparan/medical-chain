@@ -1,0 +1,1 @@
+./upload.sh small t2 $1 pdf

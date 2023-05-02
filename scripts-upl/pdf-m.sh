@@ -1,0 +1,1 @@
+./upload.sh medium t2 $1 pdf

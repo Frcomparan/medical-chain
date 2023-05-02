@@ -1,0 +1,65 @@
+./jpg-s.sh 1
+./jpg-s.sh 2
+./jpg-s.sh 3
+./jpg-s.sh 4
+./jpg-s.sh 5
+./jpg-s.sh 6
+./jpg-s.sh 7
+./jpg-s.sh 8
+./jpg-s.sh 9
+./jpg-s.sh 10
+
+./jpg-m.sh 1
+./jpg-m.sh 2
+./jpg-m.sh 3
+./jpg-m.sh 4
+./jpg-m.sh 5
+./jpg-m.sh 6
+./jpg-m.sh 7
+./jpg-m.sh 8
+./jpg-m.sh 9
+./jpg-m.sh 10
+
+./docx-s.sh 1
+./docx-s.sh 2
+./docx-s.sh 3
+./docx-s.sh 4
+./docx-s.sh 5
+./docx-s.sh 6
+./docx-s.sh 7
+./docx-s.sh 8
+./docx-s.sh 9
+./docx-s.sh 10
+
+./docx-m.sh 1
+./docx-m.sh 2
+./docx-m.sh 3
+./docx-m.sh 4
+./docx-m.sh 5
+./docx-m.sh 6
+./docx-m.sh 7
+./docx-m.sh 8
+./docx-m.sh 9
+./docx-m.sh 10
+
+./pdf-s.sh 1
+./pdf-s.sh 2
+./pdf-s.sh 3
+./pdf-s.sh 4
+./pdf-s.sh 5
+./pdf-s.sh 6
+./pdf-s.sh 7
+./pdf-s.sh 8
+./pdf-s.sh 9
+./pdf-s.sh 10
+
+./pdf-m.sh 1
+./pdf-m.sh 2
+./pdf-m.sh 3
+./pdf-m.sh 4
+./pdf-m.sh 5
+./pdf-m.sh 6
+./pdf-m.sh 7
+./pdf-m.sh 8
+./pdf-m.sh 9
+./pdf-m.sh 10
