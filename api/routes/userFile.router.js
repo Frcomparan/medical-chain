@@ -51,7 +51,7 @@ router.get(
       const { id } = req.params;
       const userFile = await userFileService.findOne(id);
       const { hash, name } = userFile;
-      console.log(userFile);
+      // console.log(userFile);
       import('../utils/ipfs/uploadIPFSEncrypted.mjs').then((module) => {
         module.downloadIPFS(name, hash).then((path) => {
           console.log(process.cwd() + '/' + path);

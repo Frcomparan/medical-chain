@@ -72,7 +72,7 @@ export async function downloadIPFS(name, cid) {
     const decryptedData = decryptFile(encryptedBuffer);
 
     // Crea un archivo local y escribe los datos de la imagen.
-    const path = `uploads/${name}`;
+    const path = `uploads/${Date.now() + name}`;
     fs.writeFileSync(path, decryptedData, (err) => {
       if (err) throw err;
       // console.log("Archivo descargada exitosamente!");
